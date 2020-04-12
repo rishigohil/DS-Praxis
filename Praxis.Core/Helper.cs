@@ -6,6 +6,14 @@ namespace Praxis.Core
     {
         private static readonly Random RandomIntNumbers = new Random();
 
+        public static void InsertBlankSep(int num = 1)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                Console.Write($"{Environment.NewLine}");
+            }
+        }
+
         public static int[] RandomArray(int size)
         {
             var data = new int[size];
@@ -16,6 +24,34 @@ namespace Praxis.Core
             }
 
             return data;
+        }
+
+        public static int[][] RandomMatrix(int m, int n, int min, int max)
+        {
+            int[][] matrix = new int[m][];
+            for (int i = 0; i < m; i++)
+            {
+                matrix[i] = new int[n];
+                for (int j = 0; j < n; j++)
+                {
+                    matrix[i][j] = RandomIntInRange(min, max);
+                }
+            }
+            return matrix;
+        }
+
+        public static int[,] RandomMatrixMulti(int m, int n, int min, int max)
+        {
+            int[,] matrix = new int[m, n];
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    matrix[i, j] = RandomIntInRange(min, max);
+                }
+            }
+            return matrix;
         }
 
         public static int RandomIntInRange(int min, int max)
