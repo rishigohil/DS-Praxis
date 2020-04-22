@@ -8,5 +8,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Praxis.Core\Praxis.Core.csproj" />
     <ProjectReference Include="..\Praxis.Contracts\Praxis.Contracts.csproj" />
+    <ProjectReference Include="..\Praxis.Library\Praxis.Library.csproj" />
   </ItemGroup>
 </Project>

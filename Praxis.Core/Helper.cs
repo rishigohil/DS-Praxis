@@ -2,7 +2,7 @@
 
 namespace Praxis.Core
 {
-    public class Helper
+    public static class Helper
     {
         private static readonly Random RandomIntNumbers = new Random();
 

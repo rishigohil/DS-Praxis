@@ -1,6 +1,7 @@
 ﻿using System;
 using Praxis.Contracts;
 using Praxis.Core;
+using Praxis.Library;
 
 namespace Praxis.Playground
 {
@@ -12,7 +13,7 @@ namespace Praxis.Playground
             {
                 new IProblem[]
                 {
-
+                    new Educative()
                 }
             };
 
