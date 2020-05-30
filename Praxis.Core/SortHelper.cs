@@ -77,6 +77,7 @@ namespace Praxis.Core
                 k++;
             }
 
+            //Copy left out elements of right array into main array.
             while (b < rightHalf)
             {
                 input[k] = rightArr[b];

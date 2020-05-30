@@ -20,7 +20,7 @@ namespace Praxis.Core
 
             for (int i = 0; i < size; i++)
             {
-                data[i] = RandomIntInRange(0, 9);
+                data[i] = RandomIntInRange(0, 99);
             }
 
             return data;

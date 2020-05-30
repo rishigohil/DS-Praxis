@@ -27,6 +27,8 @@ namespace Praxis.Playground
 
                     item.Run();
                 }
+
+                Console.WriteLine("// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
             }
 
             Helper.InsertBlankSep();
