@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Praxis.Contracts;
 using Praxis.Core;
 using System.Linq;
+using Praxis.Core.DataStructure;
 
 namespace Praxis.Library
 {
@@ -180,6 +181,42 @@ namespace Praxis.Library
             }
 
             Console.WriteLine($"Rearranged Array: {string.Join(",", inputArr)}");
+        }
+
+        public void ReverseLinkedList<T>(CustomLinkedList<T> list)
+        {
+            CustomLinkedList<T>.ListNode prevNode = null;
+            CustomLinkedList<T>.ListNode current = list.headNode;
+            CustomLinkedList<T>.ListNode next = null;
+
+            while (current != null)
+            {
+                next = current.NextNode;
+                current.NextNode = prevNode;
+                prevNode = current;
+                current = next;
+            }
+
+            list.headNode = prevNode;
+        }
+
+        //Floyd's cycle detection algorithm
+        public void DetectLinkedListLoop<T>(CustomLinkedList<T> list)
+        {
+            var fastNode = list.headNode;
+            var slowNode = list.headNode;
+
+            while (slowNode != null && fastNode != null && fastNode.NextNode != null)
+            {
+                slowNode = slowNode.NextNode;
+                fastNode = fastNode.NextNode.NextNode;
+
+                if(slowNode == fastNode)
+                {
+                    Console.WriteLine("//Output: Linkedlist input contains a loop.");
+                    break;
+                }
+            }
         }
     }
 }

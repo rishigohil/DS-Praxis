@@ -112,6 +112,60 @@ namespace Praxis.Core.DataStructure
             return false;
         }
 
+        public void DeleteHead()
+        {
+            if (IsEmpty())
+                return;
+
+            headNode = headNode.NextNode;
+            size--;
+        }
+
+        public void DeleteNode(T data)
+        {
+            if (IsEmpty())
+                return;
+
+            var tempNode = headNode;
+            ListNode prevNode = null;
+
+            if (tempNode.Data.Equals(data))
+            {
+                DeleteHead();
+                return;
+            }
+
+            while(tempNode.NextNode != null)
+            {
+                if(tempNode.Data.Equals(data))
+                {
+                    prevNode.NextNode = tempNode.NextNode;
+                    return;
+                }
+
+                prevNode = tempNode;
+                tempNode = tempNode.NextNode;
+            }
+        }
+
+        public int Length()
+        {
+            var count = 0;
+
+            if (IsEmpty())
+                return count;
+
+            var tempNode = headNode;
+
+            while (tempNode != null)
+            {
+                count++;
+                tempNode = tempNode.NextNode;
+            }
+
+            return count;
+        }
+
         public void PrintList()
         {
             if (IsEmpty())
