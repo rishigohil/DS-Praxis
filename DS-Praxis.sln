@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Praxis.Playground", "Praxis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Praxis.Library", "Praxis.Library\Praxis.Library.csproj", "{BAB2220D-FEC0-45AB-A0BB-242F2B866F3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Praxis.Contracts", "Praxis.Contracts\Praxis.Contracts.csproj", "{6927876E-6319-4B79-8478-B71ABCAD0577}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,5 +27,9 @@ Global
 		{BAB2220D-FEC0-45AB-A0BB-242F2B866F3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAB2220D-FEC0-45AB-A0BB-242F2B866F3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAB2220D-FEC0-45AB-A0BB-242F2B866F3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6927876E-6319-4B79-8478-B71ABCAD0577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6927876E-6319-4B79-8478-B71ABCAD0577}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6927876E-6319-4B79-8478-B71ABCAD0577}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6927876E-6319-4B79-8478-B71ABCAD0577}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

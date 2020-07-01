@@ -7,4 +7,7 @@
   <ItemGroup>
     <Folder Include="DataStructure\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Praxis.Contracts\Praxis.Contracts.csproj" />
+  </ItemGroup>
 </Project>

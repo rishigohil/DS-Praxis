@@ -6,5 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Praxis.Core\Praxis.Core.csproj" />
+    <ProjectReference Include="..\Praxis.Contracts\Praxis.Contracts.csproj" />
   </ItemGroup>
 </Project>
