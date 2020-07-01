@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace Praxis.Core.DataStructure
 {
     public class CustomLinkedList<T>
@@ -164,6 +166,31 @@ namespace Praxis.Core.DataStructure
             }
 
             return count;
+        }
+
+        public void DeleteDuplicates()
+        {
+            var current = this.headNode;
+            var prevNode = this.headNode;
+
+            var visitedSet = new HashSet<T>();
+
+            if (!IsEmpty() && current.NextNode != null)
+            {
+                if (visitedSet.Contains(current.Data))
+                {
+                    prevNode.NextNode = current.NextNode;
+                    current = current.NextNode;
+                }
+                else
+                {
+                    visitedSet.Add(current.Data);
+                    prevNode = current;
+                    current = current.NextNode;
+                }
+
+                current = current.NextNode;
+            }
         }
 
         public void PrintList()

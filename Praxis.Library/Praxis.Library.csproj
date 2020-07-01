@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Praxis.Contracts\Praxis.Contracts.csproj" />
     <ProjectReference Include="..\Praxis.Core\Praxis.Core.csproj" />
   </ItemGroup>
 </Project>
