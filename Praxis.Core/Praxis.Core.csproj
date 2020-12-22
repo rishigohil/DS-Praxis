@@ -3,10 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="DataStructure\" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Praxis.Contracts\Praxis.Contracts.csproj" />
   </ItemGroup>

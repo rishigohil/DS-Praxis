@@ -44,7 +44,7 @@ namespace Praxis.Library
             var sortedResult = SortHelper.MergeSort(randomArr);
 
             Console.WriteLine($"Sorted Result: {string.Join(',', sortedResult)}");
-            
+
         }
 
         /// <summary>
@@ -79,6 +79,7 @@ namespace Praxis.Library
 
         /// <summary>
         /// Find Second Maximum Value in an Array
+        /// ================================================================================
         /// Given an array of size n,
         /// Can you find the second maximum element in the array?
         /// </summary>
@@ -92,14 +93,14 @@ namespace Praxis.Library
             var max = int.MinValue;
             var secondMax = int.MinValue;
 
-            for(int i = 0; i < input.Length; i++)
+            for (int i = 0; i < input.Length; i++)
             {
-                if(input[i] > max)
+                if (input[i] > max)
                 {
                     secondMax = max;
                     max = input[i];
                 }
-                else if(input[i] > secondMax)
+                else if (input[i] > secondMax)
                 {
                     secondMax = input[i];
                 }
@@ -110,7 +111,8 @@ namespace Praxis.Library
 
         /// <summary>
         /// Right Rotate the Array by K Index.
-        /// implement the void rotateArray(int[] arr) method, which takes an arr and rotate it right by 1.
+        /// ================================================================================
+        /// Implement the void rotateArray(int[] arr) method, which takes an arr and rotate it right by 1.
         /// </summary>
         private void RotateArray()
         {
@@ -152,6 +154,8 @@ namespace Praxis.Library
         }
 
         /// <summary>
+        /// Rearrange array elements
+        /// ================================================================================
         /// Implement a method which will sort the elements,
         /// such that all the negative elements appear at the left
         /// and positive elements appear at the right.
@@ -167,9 +171,9 @@ namespace Praxis.Library
 
             for (int i = 0; i < inputArr.Length; i++)
             {
-                if(inputArr[i] < 0)
+                if (inputArr[i] < 0)
                 {
-                    if(i != j)
+                    if (i != j)
                     {
                         var temp = inputArr[i];
                         inputArr[i] = inputArr[j];
@@ -183,11 +187,22 @@ namespace Praxis.Library
             Console.WriteLine($"Rearranged Array: {string.Join(",", inputArr)}");
         }
 
+        /// <summary>
+        /// Reverse the linked list
+        /// ================================================================================
+        /// Implement a method which would reverse the linked list.
+        /// </summary>
+        /// <typeparam name="T">Type T of list</typeparam>
+        /// <param name="list">Input List param</param>
         public void ReverseLinkedList<T>(CustomLinkedList<T> list)
         {
+            if (list == null)
+                return;
+
             CustomLinkedList<T>.ListNode prevNode = null;
-            CustomLinkedList<T>.ListNode current = list.headNode;
+            CustomLinkedList<T>.ListNode current = list.GetHeadNode();
             CustomLinkedList<T>.ListNode next = null;
+            var head = list.GetHeadNode();
 
             while (current != null)
             {
@@ -197,26 +212,64 @@ namespace Praxis.Library
                 current = next;
             }
 
-            list.headNode = prevNode;
+            head = prevNode;
         }
 
-        //Floyd's cycle detection algorithm
+        /// <summary>
+        /// Detect the loop in a given linked list
+        /// ================================================================================
+        /// Implement a method which detects loop in the given linked list.
+        /// This method implements Floyd's cycle detection algorithm.
+        /// </summary>
+        /// <typeparam name="T">Type T of list</typeparam>
+        /// <param name="list">Custom list as a parameter</param>
         public void DetectLinkedListLoop<T>(CustomLinkedList<T> list)
         {
-            var fastNode = list.headNode;
-            var slowNode = list.headNode;
+            if (list == null)
+                return;
+
+            var fastNode = list.GetHeadNode();
+            var slowNode = list.GetHeadNode();
 
             while (slowNode != null && fastNode != null && fastNode.NextNode != null)
             {
                 slowNode = slowNode.NextNode;
                 fastNode = fastNode.NextNode.NextNode;
 
-                if(slowNode == fastNode)
+                if (slowNode == fastNode)
                 {
                     Console.WriteLine("//Output: Linkedlist input contains a loop.");
                     break;
                 }
             }
+        }
+
+        public object KthElementFromEnd<T>(CustomLinkedList<T> list, int k)
+        {
+            if (list == null)
+                return null;
+
+            var length = list.Length();
+
+            if (length <= 0)
+                return null;
+
+            var n = length - k;
+            var current = list.GetHeadNode();
+
+            if (n < 0)
+                n = length;
+
+            while (current != null)
+            {
+                if (n == 0)
+                    return current.Data;
+
+                current = current.NextNode;
+                n--;
+            }
+
+            return null;
         }
     }
 }

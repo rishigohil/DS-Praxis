@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Praxis.Core.DataStructure
 {
@@ -12,13 +13,23 @@ namespace Praxis.Core.DataStructure
 
         }
 
-        public ListNode headNode;
-        public int size;
+        private ListNode headNode;
+        private int size;
 
         public CustomLinkedList()
         {
             headNode = null;
             size = 0;
+        }
+
+        public ListNode GetHeadNode()
+        {
+            return headNode;
+        }
+
+        public void SetHeadNode(ListNode head)
+        {
+            this.headNode = head;
         }
 
         public bool IsEmpty()
