@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Praxis.Core.DataStructure;
+using System;
+using System.Runtime.CompilerServices;
 
 namespace Praxis.Core
 {
@@ -12,6 +14,11 @@ namespace Praxis.Core
             {
                 Console.Write($"{Environment.NewLine}");
             }
+        }
+
+        public static string WhosThere([CallerMemberName] string memberName = "")
+        {
+            return memberName;
         }
 
         public static int[] RandomArray(int size)
@@ -110,6 +117,25 @@ namespace Praxis.Core
                 }
                 Console.WriteLine();
             }
+        }
+
+        public static void PrintNode(this ListNode<int> node)
+        {
+            if (node == null)
+            {
+                Console.WriteLine("List is empty.");
+                return;
+            }
+
+            var temp = node;
+
+            while (temp.NextNode != null)
+            {
+                Console.Write($"{Convert.ToString(temp.Data)} -> ");
+                temp = temp.NextNode;
+            }
+
+            Console.Write($"{Convert.ToString(temp.Data)} -> null");
         }
     }
 }

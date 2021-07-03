@@ -6,14 +6,7 @@ namespace Praxis.Core.DataStructure
 {
     public class CustomLinkedList<T>
     {
-        public class ListNode
-        {
-            public T Data;
-            public ListNode NextNode;
-
-        }
-
-        private ListNode headNode;
+        private ListNode<T> headNode;
         private int size;
 
         public CustomLinkedList()
@@ -22,12 +15,12 @@ namespace Praxis.Core.DataStructure
             size = 0;
         }
 
-        public ListNode GetHeadNode()
+        public ListNode<T> GetHeadNode()
         {
             return headNode;
         }
 
-        public void SetHeadNode(ListNode head)
+        public void SetHeadNode(ListNode<T> head)
         {
             this.headNode = head;
         }
@@ -42,7 +35,7 @@ namespace Praxis.Core.DataStructure
 
         public void InsertAtHead(T data)
         {
-            var newNode = new ListNode
+            var newNode = new ListNode<T>
             {
                 Data = data,
                 NextNode = headNode
@@ -61,7 +54,7 @@ namespace Praxis.Core.DataStructure
                 return;
             }
 
-            var newNode = new ListNode()
+            var newNode = new ListNode<T>()
             {
                 Data = data,
                 NextNode = null
@@ -87,7 +80,7 @@ namespace Praxis.Core.DataStructure
                 return;
             }
 
-            var newNode = new ListNode()
+            var newNode = new ListNode<T>()
             {
                 Data = data
             };
@@ -140,7 +133,7 @@ namespace Praxis.Core.DataStructure
                 return;
 
             var tempNode = headNode;
-            ListNode prevNode = null;
+            ListNode<T> prevNode = null;
 
             if (tempNode.Data.Equals(data))
             {

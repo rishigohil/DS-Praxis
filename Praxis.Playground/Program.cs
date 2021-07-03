@@ -13,7 +13,8 @@ namespace Praxis.Playground
             {
                 new IProblem[]
                 {
-                    new Educative()
+                    new Educative(),
+                    new LCEasy()
                 }
             };
 
@@ -24,7 +25,7 @@ namespace Praxis.Playground
                     Helper.InsertBlankSep(2);
                     Console.WriteLine($"// Executing: {item.GetType().Name}");
                     Console.WriteLine("// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
-
+                    
                     item.Run();
                 }
 

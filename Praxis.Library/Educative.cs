@@ -199,9 +199,9 @@ namespace Praxis.Library
             if (list == null)
                 return;
 
-            CustomLinkedList<T>.ListNode prevNode = null;
-            CustomLinkedList<T>.ListNode current = list.GetHeadNode();
-            CustomLinkedList<T>.ListNode next = null;
+            ListNode<T> prevNode = null;
+            ListNode<T> current = list.GetHeadNode();
+            ListNode<T> next = null;
             var head = list.GetHeadNode();
 
             while (current != null)
