@@ -7,6 +7,10 @@ using System.Text;
 
 namespace Praxis.Library
 {
+    /// <summary>
+    /// This class contains solution for all the important LC Easy questions.
+    /// https://leetcode.com/list/?selectedList=5srjg9p5
+    /// </summary>
     public class LCEasy : IProblem
     {
         public void Run()
@@ -15,6 +19,10 @@ namespace Praxis.Library
             ValidParentheses();
             MergeTwoLists();
             MaxSubArray();
+            MergeSortedArray();
+            HasLLCycle();
+            PrintMinStack();
+            IntersectionNode();
         }
 
         #region Caller methods
@@ -119,6 +127,104 @@ namespace Praxis.Library
             Console.WriteLine($"--Output: {MaxSubArray(input)}");
             Console.WriteLine($"--Output Array: {string.Join(",", MaxSubArray(input, input.Length))}");
             Helper.InsertBlankSep();
+        }
+
+        public void MergeSortedArray()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            var input = new int[] { 1, 3, 8, 0, 0, 0 };
+            var input2 = new int[] { 5, 7, 9 };
+            Console.WriteLine($"--Input1: {string.Join(",", input)}");
+            Console.WriteLine($"--Input2: {string.Join(",", input2)}");
+            MergeSortedArray(input, input.Length - input2.Length, input2, input2.Length);
+            Console.WriteLine($"--Output: {string.Join(",", input)}");
+            Helper.InsertBlankSep();
+        }
+
+        public void HasLLCycle()
+        {
+            var prev = new ListNode<int>();
+
+            var head = new ListNode<int>()
+            {
+                Data = 0,
+                NextNode = prev
+            };
+
+            prev.Data = 1;
+            prev.NextNode = new ListNode<int>()
+            {
+                Data = 1,
+                NextNode = head
+            };
+
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            Console.WriteLine($"--HasCycle?: {HasLLCycle(head)}");
+        }
+
+        public void PrintMinStack()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            var minResult = GenerateMinStack();
+            Console.WriteLine($"--Top: {minResult.Top()}");
+            Console.WriteLine($"--Min: {minResult.Min()}");
+            Helper.InsertBlankSep();
+        }
+
+        public void IntersectionNode()
+        {
+            var headA = new ListNode<int>()
+            {
+                Data = 4,
+                NextNode = new ListNode<int>()
+                {
+                    Data = 1,
+                    NextNode = new ListNode<int>()
+                    {
+                        Data = 8,
+                        NextNode = new ListNode<int>()
+                        {
+                            Data = 4,
+                            NextNode = new ListNode<int>()
+                            {
+                                Data = 5,
+                                NextNode = null
+                            }
+                        }
+                    }
+                }
+            };
+
+            var headB = new ListNode<int>()
+            {
+                Data = 5,
+                NextNode = new ListNode<int>()
+                {
+                    Data = 6,
+                    NextNode = new ListNode<int>()
+                    {
+                        Data = 1,
+                        NextNode = headA.NextNode.NextNode.NextNode
+                    }
+                }
+            };
+
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            Console.Write($"--HeadA: ");
+            headA.PrintNode();
+            Helper.InsertBlankSep();
+            Console.Write($"--HeadB: ");
+            headB.PrintNode();
+            Helper.InsertBlankSep();
+            Console.Write($"--Intersection: ");
+            
+            var intersectionPoint = GetIntersectionNode(headA, headB);
+            if (intersectionPoint != null)
+                intersectionPoint.PrintNode();
+            else
+                Console.WriteLine("HeadA and HeadB are not intersecting at any point.");
+            Helper.InsertBlankSep();
+
         }
 
         #endregion
@@ -281,7 +387,7 @@ namespace Praxis.Library
 
             //Stores Maximum Sum
             int maxSum = 0;
-            
+
             //Stores the Maximum Sum of Subarray at current position
             int maxEnd = 0;
 
@@ -293,14 +399,14 @@ namespace Praxis.Library
                 maxEnd = maxEnd + nums[i];
 
                 //If negative, restart the index and reset the maxEndHere variable
-                if (maxEnd < 0) 
+                if (maxEnd < 0)
                 {
                     maxEnd = 0;
                     posIndex = i + 1;
                 }
 
                 //Update result if current subarray sum is greater
-                if(maxSum < maxEnd)
+                if (maxSum < maxEnd)
                 {
                     maxSum = maxEnd;
                     startIndex = posIndex;
@@ -316,6 +422,121 @@ namespace Praxis.Library
             }
 
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Merge Sorted Array: ou are given two integer arrays nums1 and nums2, 
+        /// sorted in non-decreasing order, and two integers m and n, 
+        /// representing the number of elements in nums1 and nums2 respectively.
+        /// The final sorted array should not be returned by the function, but instead be stored inside the array nums1
+        /// To accommodate this, nums1 has a length of m + n, 
+        /// where the first m elements denote the elements that should be merged, 
+        /// and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
+        /// https://leetcode.com/problems/merge-sorted-array/
+        /// </summary>
+        /// <param name="nums1">First sorted array</param>
+        /// <param name="m">Length of nums1</param>
+        /// <param name="nums2">Second sorted array</param>
+        /// <param name="n">Length of nums2</param>
+        public void MergeSortedArray(int[] nums1, int m, int[] nums2, int n)
+        {
+            //End pointers for both arrays
+            int p1 = m - 1;
+            int p2 = n - 1;
+
+            //Iterate from the end and keep writing the smallest value pointed at p1 or p2 from its respective arrays. 
+            for (int p = m + n - 1; p >= 0; p--)
+            {
+                if (p2 < 0)
+                    break;
+
+                if (p1 >= 0 && nums1[p1] > nums2[p2])
+                {
+                    nums1[p] = nums1[p1--];
+                }
+                else
+                {
+                    nums1[p] = nums2[p2--];
+                }
+            }
+        }
+
+        /// <summary>
+        /// Linked List Cycle: Given head, the head of a linked list, determine if the linked list has a cycle in it.
+        /// https://leetcode.com/problems/linked-list-cycle/
+        /// </summary>
+        /// <param name="head">Head of the linked list</param>
+        /// <returns>Boolean value based on cycle detection</returns>
+        public bool HasLLCycle(ListNode<int> head)
+        {
+            if (head == null)
+                return false;
+
+            var slow = head;
+            var fast = head.NextNode;
+
+            while (slow != fast)
+            {
+                if (fast == null || fast.NextNode == null)
+                {
+                    return false;
+                }
+
+                slow = slow.NextNode;
+                fast = fast.NextNode.NextNode;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+        /// https://leetcode.com/problems/min-stack/
+        /// </summary>
+        /// <returns>MinStack containing values</returns>
+        public MinStack GenerateMinStack()
+        {
+            var minStack = new MinStack();
+
+            minStack.Push(10);
+            minStack.Push(12);
+            minStack.Push(15);
+
+            return minStack;
+        }
+
+        /// <summary>
+        /// Intersection of Two Linked Lists: Given the heads of two singly linked-lists headA and headB, 
+        /// return the node at which the two lists intersect. If the two linked lists have no intersection at all, 
+        /// return null.
+        /// </summary>
+        /// <param name="headA">Head of LinkedList A</param>
+        /// <param name="headB">Head of LinkedList B</param>
+        /// <returns>Intersection point</returns>
+        public ListNode<int> GetIntersectionNode(ListNode<int> headA, ListNode<int> headB)
+        {
+            if (headA == null || headB == null) 
+                return null;
+
+            var nodeB = new HashSet<ListNode<int>>();
+
+            while (headB != null)
+            {
+                nodeB.Add(headB);
+                headB = headB.NextNode;
+            }
+
+            while (headA != null)
+            {
+                if (nodeB.Contains(headA))
+                {
+                    return headA;
+                }
+
+                headA = headA.NextNode;
+            }
+
+            return null;
         }
 
         #endregion
