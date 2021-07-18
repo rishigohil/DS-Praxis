@@ -13,7 +13,7 @@ namespace Praxis.Playground
             {
                 new IProblem[]
                 {
-                    new Educative(),
+                    //new Educative(),
                     new LCEasy()
                 }
             };

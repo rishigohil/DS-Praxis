@@ -3,6 +3,7 @@ using Praxis.Core;
 using Praxis.Core.DataStructure;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Praxis.Library
@@ -23,6 +24,10 @@ namespace Praxis.Library
             HasLLCycle();
             PrintMinStack();
             IntersectionNode();
+            MajorityElement();
+            TrailingZeroes();
+            RotateArray();
+            RobHouses();
         }
 
         #region Caller methods
@@ -160,6 +165,7 @@ namespace Praxis.Library
 
             Console.WriteLine($"--Executing: {Helper.WhosThere()}");
             Console.WriteLine($"--HasCycle?: {HasLLCycle(head)}");
+            Helper.InsertBlankSep();
         }
 
         public void PrintMinStack()
@@ -217,14 +223,53 @@ namespace Praxis.Library
             headB.PrintNode();
             Helper.InsertBlankSep();
             Console.Write($"--Intersection: ");
-            
+
             var intersectionPoint = GetIntersectionNode(headA, headB);
+            
             if (intersectionPoint != null)
                 intersectionPoint.PrintNode();
             else
                 Console.WriteLine("HeadA and HeadB are not intersecting at any point.");
-            Helper.InsertBlankSep();
+            Helper.InsertBlankSep(2);
 
+        }
+
+        public void MajorityElement()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            var input = new int[] { 2, 2, 1, 1, 1, 2, 2 };
+            Console.WriteLine($"--Input: {string.Join(",", input)}");
+            Console.WriteLine($"--Majority Element: {MajorityElement(input)}");
+            Helper.InsertBlankSep();
+        }
+
+        public void TrailingZeroes()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            var input = 123;
+            Console.WriteLine($"--Input: {input}!");
+            Console.WriteLine($"--Trailing Zeroes: {TrailingZeroes(input)}");
+            Helper.InsertBlankSep();
+        }
+
+        public void RotateArray()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            var input = new int[] { 1, 2, 3, 4, 5, 6, 7 };
+            var k = 3;
+            Console.WriteLine($"--Input: {string.Join(",", input)} | K = {k}");
+            RotateArray(input, k);
+            Console.WriteLine($"--Output: {string.Join(",", input)}");
+            Helper.InsertBlankSep();
+        }
+
+        public void RobHouses()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            var input = new int[] { 2, 7, 9, 3, 1 };
+            Console.WriteLine($"--Houses: {string.Join(",", input)}");
+            Console.WriteLine($"--Maximum amount robbed: {Rob(input)}");
+            Helper.InsertBlankSep();
         }
 
         #endregion
@@ -509,13 +554,14 @@ namespace Praxis.Library
         /// Intersection of Two Linked Lists: Given the heads of two singly linked-lists headA and headB, 
         /// return the node at which the two lists intersect. If the two linked lists have no intersection at all, 
         /// return null.
+        /// https://leetcode.com/problems/intersection-of-two-linked-lists/
         /// </summary>
         /// <param name="headA">Head of LinkedList A</param>
         /// <param name="headB">Head of LinkedList B</param>
         /// <returns>Intersection point</returns>
         public ListNode<int> GetIntersectionNode(ListNode<int> headA, ListNode<int> headB)
         {
-            if (headA == null || headB == null) 
+            if (headA == null || headB == null)
                 return null;
 
             var nodeB = new HashSet<ListNode<int>>();
@@ -537,6 +583,128 @@ namespace Praxis.Library
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Given an array nums of size n, return the majority element.
+        /// The majority element is the element that appears more than ⌊n / 2⌋ times. 
+        /// You may assume that the majority element always exists in the array.
+        /// Boyer-Moore Majority Vote Algorithm (https://www.cs.utexas.edu/~moore/best-ideas/mjrty/)
+        /// https://leetcode.com/problems/majority-element/
+        /// </summary>
+        /// <param name="nums">Array of numbers</param>
+        /// <returns>Majority element</returns>
+        public int MajorityElement(int[] nums)
+        {
+            int majorElement = nums[0];
+            int count = 1;
+
+            for (int i = 1; i < nums.Length; i++)
+            {
+                if (count == 0)
+                {
+                    count++;
+                    majorElement = nums[i];
+                }
+                else if (nums[i] == majorElement)
+                {
+                    count++;
+                }
+                else
+                {
+                    count--;
+                }
+            }
+
+            return majorElement;
+        }
+
+        /// <summary>
+        /// Factorial Trailing Zeroes: Given an integer n, return the number of trailing zeroes in n!.
+        /// </summary>
+        /// <param name="n">Number input</param>
+        /// <returns>Returns number of trailing zeroes in factorial of given input</returns>
+        public int TrailingZeroes(int n)
+        {
+            int result = 0;
+
+            while(n >= 5)
+            {
+                n /= 5;
+                result += n;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Rotate array by K number and return it. 
+        /// </summary>
+        /// <param name="nums">Array of integers</param>
+        /// <param name="k">Number of places it should be rotated</param>
+        public void RotateArray(int[] nums, int k)
+        {
+            k %= nums.Length;
+
+            ReverseElements(nums, 0, nums.Length - 1);
+            ReverseElements(nums, 0, k - 1);
+            ReverseElements(nums, k, nums.Length - 1);
+        }
+
+        /// <summary>
+        /// Reveres the elements in an array from start to end indexes
+        /// </summary>
+        /// <param name="nums">Array of integers</param>
+        /// <param name="start">Start index</param>
+        /// <param name="end">End index</param>
+        private void ReverseElements(int[] nums, int start, int end)
+        {
+            while (start < end)
+            {
+                var temp = nums[start];
+                nums[start] = nums[end];
+                nums[end] = temp;
+                start++;
+                end--;
+            }
+        }
+
+        /// <summary>
+        /// Maximum Sum Subsequence Non-Adjacent: House Robber: You are a professional robber planning to rob houses along a street. 
+        /// Each house has a certain amount of money stashed, 
+        /// the only constraint stopping you from robbing each of them is that 
+        /// adjacent houses have security systems connected and it will 
+        /// automatically contact the police if two adjacent houses were broken into on the same night.
+        /// https://leetcode.com/problems/house-robber/
+        /// </summary>
+        /// <param name="nums">Array of houses</param>
+        /// <returns>Total amount robbed</returns>
+        public int Rob(int[] nums)
+        {
+            // As we rob, we peek the next adjacent house
+            // Maintain incl variable to store maximum robbed so far including current house
+            // Maintain excl variable to store maximum robbed so far excluding current house
+
+            if (nums.Length <= 0)
+                return 0;
+
+            if (nums.Length == 1)
+                return nums[0];
+
+            if (nums.Length == 2)
+                return Math.Max(nums[0], nums[1]);
+
+            int excl = 0;
+            int incl = nums[0];
+
+            for(int i = 1; i < nums.Length; i++)
+            {
+                var temp = incl;
+                incl = Math.Max(excl + nums[i], incl);
+                excl = temp;
+            }
+
+            return incl;
         }
 
         #endregion
