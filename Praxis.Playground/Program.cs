@@ -14,7 +14,8 @@ namespace Praxis.Playground
                 new IProblem[]
                 {
                     //new Educative(),
-                    new LCEasy()
+                    //new LCEasy()
+                    new LCBlind()
                 }
             };
 

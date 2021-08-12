@@ -1,6 +1,8 @@
 ﻿using Praxis.Core.DataStructure;
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 namespace Praxis.Core
 {
@@ -137,5 +139,22 @@ namespace Praxis.Core
 
             Console.Write($"{Convert.ToString(temp.Data)} -> null");
         }
+
+        public static List<List<int>> FindDistinctWithoutLinq(List<List<int>> lst)
+        {
+            var dic = new Dictionary<string, List<int>>();
+            foreach (var item in lst)
+            {
+                string key = string.Join(",", item.OrderBy(c => c));
+
+                if (!dic.ContainsKey(key))
+                {
+                    dic.Add(key, item);
+                }
+            }
+
+            return dic.Values.ToList();
+        }
+
     }
 }
