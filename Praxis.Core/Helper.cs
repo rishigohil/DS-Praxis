@@ -35,7 +35,7 @@ namespace Praxis.Core
             return data;
         }
 
-        public static int[][] RandomMatrix(int m, int n, int min, int max)
+        public static int[][] RandomMatrixJagged(int m, int n, int min, int max)
         {
             int[][] matrix = new int[m][];
             for (int i = 0; i < m; i++)
@@ -49,7 +49,7 @@ namespace Praxis.Core
             return matrix;
         }
 
-        public static int[,] RandomMatrixMulti(int m, int n, int min, int max)
+        public static int[,] RandomMatrix2D(int m, int n, int min, int max)
         {
             int[,] matrix = new int[m, n];
 

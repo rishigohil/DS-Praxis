@@ -24,6 +24,8 @@ namespace Praxis.Library
             IsValidParenthesis();
             MergeTwoLists();
             SubdomainVisits();
+            SearchRotatedArray();
+            FindContiguousUrl();
         }
 
         #region Caller Methods
@@ -51,7 +53,7 @@ namespace Praxis.Library
         public void LongestPalindrome()
         {
             Console.WriteLine($"--Executing: {Helper.WhosThere()}");
-            var input = "bb";
+            var input = "babad";
             Console.WriteLine($"--Input: {input}");
             Console.WriteLine($"--Longest Palindrome: {LongestPalindrome(input)}");
             Helper.InsertBlankSep();
@@ -188,6 +190,55 @@ namespace Praxis.Library
             Helper.InsertBlankSep();
         }
 
+        public static void FindContiguousUrl()
+        {
+            string[] user0 = { "/start", "/green", "/blue", "/pink", "/register", "/orange", "/one/two" };
+            string[] user1 = { "/start", "/pink", "/register", "/orange", "/red", "a" };
+            string[] user2 = { "a", "/one", "/two" };
+            string[] user3 = {"/pink", "/orange", "/yellow", "/plum", "/blue", "/tan", "/red", "/amber", "/HotRodPink", "/CornflowerBlue", "/LightGoldenRodYellow", "/BritishRacingGreen"};
+            string[] user4 = { "/pink", "/orange", "/amber", "/BritishRacingGreen", "/plum", "/blue", "/tan", "/red", "/lavender", "/HotRodPink", "/CornflowerBlue", "/LightGoldenRodYellow" };
+            string[] user5 = { "a" };
+            string[] user6 = { "/pink", "/orange", "/six", "/plum", "/seven", "/tan", "/red", "/amber" };
+
+            FindContiguousHistory(user0, user1); //=> ["/pink", "/register", "/orange"]
+            FindContiguousHistory(user0, user2); //=> [] (empty)
+            FindContiguousHistory(user0, user0); //=> ["/start", "/green", "/blue", "/pink", "/register", "/orange", "/one/two"]
+            FindContiguousHistory(user2, user1); //=> ["a"] 
+            FindContiguousHistory(user5, user2); //=> ["a"]
+            FindContiguousHistory(user3, user4); //=> ["/plum", "/blue", "/tan", "/red"]
+            FindContiguousHistory(user4, user3); //=> ["/plum", "/blue", "/tan", "/red"]
+            FindContiguousHistory(user3, user6); //=> ["/tan", "/red", "/amber"]
+        }
+
+        public static void FindContiguousHistory(string[] userA, string[] userB)
+        {
+            Console.WriteLine("===========================================");
+            Console.WriteLine("Input UserA: ");
+            Console.WriteLine($"[{string.Join(",", userA)}]");
+            Console.WriteLine("Input UserB: ");
+            Console.WriteLine($"[{string.Join(",", userB)}]");
+
+            var resultData = FindContiguousHistoryProcess(userA, userB);
+
+            Console.WriteLine("Output (Contiguous History): ");
+            Console.WriteLine($"[{string.Join(",", resultData)}]");
+            Console.WriteLine("===========================================");
+        }
+
+        public void SearchRotatedArray()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            var input = new int[] { 4, 5, 6, 7, 0, 1, 2 };
+            var target = 7;
+            Console.WriteLine($"--Input: {string.Join(",", input)}");
+            Console.WriteLine($"--Target: {target}");
+            Console.WriteLine($"--Output Index: {SearchRotatedArray(input, target)}");
+            target = 3;
+            Console.WriteLine($"--Target: {target}");
+            Console.WriteLine($"--Output Index: {SearchRotatedArray(input, target)}");
+            Helper.InsertBlankSep();
+        }
+
         #endregion
 
         #region Implementation Methods
@@ -303,19 +354,19 @@ namespace Praxis.Library
 
             for (int i = 0; i < s.Length; i++)
             {
-                var part1 = ExpandAroundCenter(s, i, i);
+                var odd = ExpandAroundCenter(s, i, i);
 
-                if (part1.Length > resultLen)
+                if (odd.Length > resultLen)
                 {
-                    resultLen = part1.Length;
-                    result = part1;
+                    resultLen = odd.Length;
+                    result = odd;
                 }
 
-                var part2 = ExpandAroundCenter(s, i, i + 1);
-                if (part2.Length > resultLen)
+                var even = ExpandAroundCenter(s, i, i + 1);
+                if (even.Length > resultLen)
                 {
-                    resultLen = part2.Length;
-                    result = part2;
+                    resultLen = even.Length;
+                    result = even;
                 }
             }
 
@@ -606,6 +657,117 @@ namespace Praxis.Library
         public List<List<int>> FindParents(int[][] pairs)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Search element in a Rotated Sorted Array
+        /// Approach: Modified Binary Search
+        /// Initiate the pointer start to 0, and the pointer end to n - 1.
+        /// Perform standard binary search
+        ///     Pivot element is larger than the first element in the array, i.e. the subarray from the first element to the pivot is non-rotated.
+        ///     Pivot element is smaller than the first element of the array, i.e. the rotation index is somewhere between 0 and mid. It implies that the sub-array from the pivot element to the last one is non-rotated.
+        /// https://leetcode.com/problems/search-in-rotated-sorted-array/
+        /// </summary>
+        /// <param name="nums">Input rotated sorted array</param>
+        /// <param name="target">Target to search</param>
+        /// <returns></returns>
+        public int SearchRotatedArray(int[] nums, int target)
+        {
+            int left = 0;
+            int right = nums.Length - 1;
+
+            while (left <= right)
+            {
+                int mid = left + (right - left) / 2;
+
+                if (nums[mid] == target)
+                {
+                    return mid;
+                }
+                else if(nums[mid] > nums[left])
+                {
+                    if (target >= nums[left] && target <= nums[mid])
+                        right = mid - 1;
+                    else
+                        left = mid + 1;
+                }
+                else
+                {
+                    if (target <= nums[right] && target >= nums[mid])
+                        left = mid + 1;
+                    else
+                        right = mid - 1;
+                }
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// We have some clickstream data that we gathered on our client's website. 
+        /// Using cookies, we collected snippets of users' anonymized URL histories while they browsed the site. 
+        /// The histories are in chronological order, and no URL was visited more than once per person.
+        /// 
+        /// Write a function that takes two users' browsing histories as input and returns the longest contiguous sequence of URLs that appears in both.
+        /// 
+        /// Sample input:
+        /// user0 = ["/start", "/green", "/blue", "/pink", "/register", "/orange", "/one/two"]
+        /// user1 = ["/start", "/pink", "/register", "/orange", "/red", "a"]
+        /// user2 = ["a", "/one", "/two"]
+        /// user3 = ["/pink", "/orange", "/yellow", "/plum", "/blue", "/tan", "/red", "/amber", "/HotRodPink", "/CornflowerBlue", "/LightGoldenRodYellow", "/BritishRacingGreen"]
+        /// user4 = ["/pink", "/orange", "/amber", "/BritishRacingGreen", "/plum", "/blue", "/tan", "/red", "/lavender", "/HotRodPink", "/CornflowerBlue", "/LightGoldenRodYellow"]
+        /// user5 = ["a"]
+        /// user6 = ["/pink","/orange","/six","/plum","/seven","/tan","/red", "/amber"]
+        /// 
+        /// Output:
+        /// findContiguousHistory(user0, user1) => ["/pink", "/register", "/orange"]
+        /// findContiguousHistory(user0, user2) => [] (empty)
+        /// findContiguousHistory(user0, user0) => ["/start", "/green", "/blue", "/pink", "/register", "/orange", "/one/two"]
+        /// findContiguousHistory(user2, user1) => ["a"] 
+        /// findContiguousHistory(user5, user2) => ["a"]
+        /// findContiguousHistory(user3, user4) => ["/plum", "/blue", "/tan", "/red"]
+        /// findContiguousHistory(user4, user3) => ["/plum", "/blue", "/tan", "/red"]
+        /// findContiguousHistory(user3, user6) => ["/tan", "/red", "/amber"]
+        /// 
+        /// n: length of the first user's browsing history
+        /// m: length of the second user's browsing history
+        /// </summary>
+        /// <param name="user1"></param>
+        /// <param name="user2"></param>
+        /// <returns></returns>
+        public static List<string> FindContiguousHistoryProcess(string[] user1, string[] user2)
+        {
+            var result = new List<string>();
+
+            int[,] dp = new int[user1.Length + 1, user2.Length + 1];
+
+            int max = 0;
+            int end = 0;
+
+            for (int i = user1.Length - 1; i >= 0; i--)
+            {
+                for (int j = user2.Length - 1; j >= 0; j--)
+                {
+                    if (user1[i].Equals(user2[j]))
+                    {
+                        dp[i, j] = 1 + dp[i + 1, j + 1];
+
+                        if (max < dp[i, j])
+                        {
+                            max = dp[i, j];
+                            end = j;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            for (int i = end; i < end + max; i++)
+            {
+                result.Add(user2[i]);
+            }
+
+            return result;
         }
 
         #endregion
