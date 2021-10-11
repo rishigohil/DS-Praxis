@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+
 namespace Praxis.Library
 {
     /// <summary>
@@ -13,6 +15,9 @@ namespace Praxis.Library
     /// </summary>
     public class LCBlind : IProblem
     {
+        const int _numberLimit = 10;
+        static object _monitor = new object();
+
         public void Run()
         {
             TwoSum();
@@ -26,6 +31,9 @@ namespace Praxis.Library
             SubdomainVisits();
             SearchRotatedArray();
             FindContiguousUrl();
+            GameOfLife();
+            PrintOddEvenFromTwoThreads();
+            IPAddressValidation();
         }
 
         #region Caller Methods
@@ -236,6 +244,73 @@ namespace Praxis.Library
             target = 3;
             Console.WriteLine($"--Target: {target}");
             Console.WriteLine($"--Output Index: {SearchRotatedArray(input, target)}");
+            Helper.InsertBlankSep();
+        }
+
+        public void GameOfLife()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            var input = Helper.RandomMatrix2D(4,3,0,1);
+            Console.WriteLine("Input:");
+            Helper.PrintMatrix(input);
+            GameOfLife(input);
+            Console.WriteLine("Output: ");
+            Helper.PrintMatrix(input);
+        }
+
+        public void PrintOddEvenFromTwoThreads()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            Console.WriteLine($"--Input: {_numberLimit}");
+
+            Thread oddThread = new Thread(Odd);
+            Thread evenThread = new Thread(Even);
+            Console.Write($"--Output: ");
+
+            //Start even thread.
+            evenThread.Start();
+
+            //puase for 10 ms, to make sure even thread has started
+            //or else odd thread may start first resulting other sequence.
+            Thread.Sleep(100);
+
+            //Start odd thread.
+            oddThread.Start();
+
+            oddThread.Join();
+            evenThread.Join();
+
+            Helper.InsertBlankSep();
+        }
+
+        public static void IPAddressValidation()
+        {
+            var fileData = new List<string>();
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+
+            fileData.Add("2021-08-11 12:15:01 This is a line of text in the log file.");
+            fileData.Add("2021-08-11 12:16:01 This is a line of text that has an IP 73.67.200.201 Address");
+            fileData.Add("2021-08-11 12:17:01 This is a line of text in the log file");
+            fileData.Add("2021-08-11 12:16:01 This is a line of text with an IP address of 71.60.210.64 (unknown user)");
+            fileData.Add("2021-08-11 12:17:01 This is a line of text in the log file");
+
+            var stringResult = new StringBuilder();
+            Console.WriteLine($"--Input: ");
+
+            fileData.ForEach(line => 
+            {
+                Console.WriteLine(line);
+                
+                line.Split(" ").ToList().ForEach(word => 
+                { 
+                    if(word.Split(".").Length == 4 && IsValidIPAddress(word)) 
+                        stringResult.Append(word + Environment.NewLine);   
+                });
+                
+            });
+
+            Console.WriteLine("--Output: ");
+            Console.WriteLine(stringResult.ToString());
             Helper.InsertBlankSep();
         }
 
@@ -768,6 +843,166 @@ namespace Praxis.Library
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Game of Life: https://leetcode.com/problems/game-of-life/
+        /// The board is made up of an m x n grid of cells, where each cell has an initial state: live (represented by a 1) or dead (represented by a 0). 
+        /// Each cell interacts with its eight neighbors (horizontal, vertical, diagonal) using the following four rules (taken from the above Wikipedia article):
+        /// Any live cell with fewer than two live neighbors dies as if caused by under-population.
+        /// Any live cell with two or three live neighbors lives on to the next generation.
+        /// Any live cell with more than three live neighbors dies, as if by over-population.
+        /// Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+        /// The next state is created by applying the above rules simultaneously to every cell in the current state, where births and deaths occur simultaneously. 
+        /// Given the current state of the m x n grid board, return the next state.
+        /// </summary>
+        /// <param name="board"></param>
+        public void GameOfLife(int[,] board)
+        {
+            int m = board.GetLength(0);
+            int n = board.GetLength(1);
+            int[,] nextArr = new int[m, n];
+            int[][] dirArr = new int[][]
+            {
+                new [] { -1, 0 },
+                new [] { -1, 1 },
+                new [] { 0, 1 },
+                new [] { 1, 1 },
+                new [] { 1, 0 },
+                new [] { 1, -1 },
+                new [] { 0, -1 },
+                new [] { -1, -1 }
+            };
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    int liveCount = 0;
+
+                    foreach (var dir in dirArr)
+                    {
+                        int x = dir[0] + i;
+                        int y = dir[1] + j;
+
+                        if(x >= 0 && x < m && y >= 0 && y < n && board[x,y] == 1)
+                        {
+                            liveCount++;
+                        }
+                    }
+
+                    if(board[i,j] == 0 && liveCount == 3)
+                    {
+                        nextArr[i,j] = 1;
+                    } 
+                    else if(board[i,j] == 1)
+                    {
+                        if(liveCount == 3 || liveCount == 2)
+                        {
+                            nextArr[i,j] = 1;
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    board[i,j] = nextArr[i,j];
+                }
+            }
+        }
+
+        public void Odd()
+        {
+            try
+            {
+                //hold lock as console is shared between threads.
+                Monitor.Enter(_monitor);
+
+                for (int i = 1; i <= _numberLimit; i = i + 2)
+                {
+                    //Complete the task (printing odd number on console)
+                    Console.Write(" " + i);
+                    //Notify other thread - here even thread
+                    //that I'm done you do your job
+                    Monitor.Pulse(_monitor);
+
+                    //I will wait here till even thread notify me
+                    // Monitor.Wait(monitor);
+
+                    // without this logic application will wait forever
+                    bool isLast = i == _numberLimit - 1;
+                    if (!isLast)
+                        Monitor.Wait(_monitor); //I will wait here till even thread notify me
+                }
+            }
+            finally
+            {
+                //Release lock
+                Monitor.Exit(_monitor);
+            }
+        }
+
+        public void Even()
+        {
+            try
+            {
+                //hold lock
+                Monitor.Enter(_monitor);
+                for (int i = 0; i <= _numberLimit; i = i + 2)
+                {
+                    //Complete the task (printing even number on console)
+                    Console.Write(" " + i);
+                    //Notify other thread - here odd thread
+                    //that I'm done, you do your job
+                    Monitor.Pulse(_monitor);
+                    //I will wait here till odd thread notify me
+                    // Monitor.Wait(monitor);
+
+                    //Monitors last element
+                    bool isLast = i == _numberLimit;
+                    if (!isLast)
+                        Monitor.Wait(_monitor);
+                }
+            }
+            finally
+            {
+                //release the lock
+                Monitor.Exit(_monitor);
+            }
+
+        }
+
+        
+        /// <summary>
+        /// # write a program that parses a log file looking for IP address
+        /// # the log file is a local file on disk with the name "/logs/app.log" or (C:\logs\app.log)
+        /// # the contents of the file to parse is:
+        /// </summary>
+        /// <param name="ipText">Word containing IP Address</param>
+        /// <returns>Bool if valid</returns>
+        public static bool IsValidIPAddress(string ipText)
+        {
+            var ipArr = ipText.Split(".");
+
+            if (ipArr.Length != 4)
+                return false;
+
+            foreach (var num in ipArr)
+            {
+                bool isValid = int.TryParse(num, out int k);
+
+                if (isValid)
+                {
+                    return (k > 0 && k < 255);
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
         #endregion
