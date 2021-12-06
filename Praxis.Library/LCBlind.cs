@@ -304,7 +304,7 @@ namespace Praxis.Library
                 line.Split(" ").ToList().ForEach(word => 
                 { 
                     if(word.Split(".").Length == 4 && IsValidIPAddress(word)) 
-                        stringResult.Append(word + Environment.NewLine);   
+                        stringResult.Append(word + Environment.NewLine);    
                 });
                 
             });
