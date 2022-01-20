@@ -1460,6 +1460,7 @@ namespace Praxis.Library
         /// <summary>
         /// 121. Best Time to Buy and Sell Stock
         /// https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+        /// https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/discuss/75924/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems
         /// You are given an array prices where prices[i] is the price of a given stock on the ith day.
         /// You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
         /// Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
@@ -1509,6 +1510,56 @@ namespace Praxis.Library
         }
 
         /// <summary>
+        /// 123. Best Time to Buy and Sell Stock III
+        /// You are given an array prices where prices[i] is the price of a given stock on the ith day.
+        /// Find the maximum profit you can achieve. You may complete at most two transactions.
+        /// Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+        /// Input: prices = [3,3,5,0,0,3,1,4]
+        /// Output: 6
+        /// Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+        /// Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.
+        /// 
+        /// T: O(n)
+        /// S: O(1)
+        /// </summary>
+        /// <param name="prices"></param>
+        /// <returns></returns>
+        public int MaxProfitIII(int[] prices)
+        {
+            /*
+             * Prices - Stock prices array with length N
+             * i - Denotes the i-th day in the look from 0 to N-1
+             * k - Denotes the max number of transactions allowed to complete
+             * T[i][k] - Maximum profit that could be gained on the i-th day with at most k transactions
+             * Base Case: T[-1][k] = T[i][0] = 0 - First day has i = 0 so i = -1 means no stock
+             * Relate T[i][k] to subproblems T[i-1][k], T[i][k-1], T[i-1][k-1]
+             * Notice the action on the ith day - Actions are Buy,Sell or Rest.
+             * We can try each option and then choose the one that maximizes our profit, provided there are no other restrictions
+             * Restriction here: When you buy 0 stocks in hand - When you sell exactly 1 stock in hand
+             * T[i][k][0] -> Max profit on the ith day with at most k transactions with 0 stock in hand
+             * T[i][k][1] -> Max profit on the ith day with at most k transactions with 1 stock in hand
+             * Base Case:
+             * T[-1][k][0] = 0, T[-1][k][1] = -Infinity
+             * T[i][0][0] = 0, T[i][0][1] = -Infinity
+             * Recurrence:
+             * T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
+             * T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0] - prices[i])
+            */
+
+            int T_i10 = 0, T_i11 = int.MinValue, T_i20 = 0, T_i21 = int.MinValue;
+
+            foreach (int price in prices)
+            {
+                T_i20 = Math.Max(T_i20, T_i21 + price);
+                T_i21 = Math.Max(T_i21, T_i10 - price);
+                T_i10 = Math.Max(T_i10, T_i11 + price);
+                T_i11 = Math.Max(T_i11, -price);
+            }
+
+            return T_i20;
+        }
+
+        /// <summary>
         /// 188. Best Time to Buy and Sell Stock IV
         /// https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/
         /// You are given an integer array prices where prices[i] is the price of a given stock on the ith day, and an integer k.
@@ -1523,9 +1574,14 @@ namespace Praxis.Library
         /// <param name="k"></param>
         /// <param name="prices"></param>
         /// <returns></returns>
-        public static int MaxProfit(int k, int[] prices)
+        public static int MaxProfitIV(int k, int[] prices)
         {
-            if(k ==0) return 0;
+            /*
+             * A profitable transaction takes at least two days (buy at one day and sell at the other, provided the buying price is less than the selling price). 
+             * If the length of the prices array is n, the maximum number of profitable transactions is n/2
+             */
+
+            if (k ==0) return 0;
 
             int[] profit = new int[k + 1];
             int[] cost = new int[k + 1];
@@ -1545,9 +1601,6 @@ namespace Praxis.Library
 
             return profit[1];
         }
-
-        
-
 
         #endregion
     }
