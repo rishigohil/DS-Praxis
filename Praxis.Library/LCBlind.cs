@@ -34,6 +34,14 @@ namespace Praxis.Library
             GameOfLife();
             PrintOddEvenFromTwoThreads();
             IPAddressValidation();
+            NumIslandMaxArea();
+            FindSymmetricDifference();
+            CheckNumSequence();
+            WordBreak();
+            IsToeplitzMatrix();
+            DotProductAndCompress();
+            LeftSideView();
+            MaxProfit();
         }
 
         #region Caller Methods
@@ -203,7 +211,7 @@ namespace Praxis.Library
             string[] user0 = { "/start", "/green", "/blue", "/pink", "/register", "/orange", "/one/two" };
             string[] user1 = { "/start", "/pink", "/register", "/orange", "/red", "a" };
             string[] user2 = { "a", "/one", "/two" };
-            string[] user3 = {"/pink", "/orange", "/yellow", "/plum", "/blue", "/tan", "/red", "/amber", "/HotRodPink", "/CornflowerBlue", "/LightGoldenRodYellow", "/BritishRacingGreen"};
+            string[] user3 = { "/pink", "/orange", "/yellow", "/plum", "/blue", "/tan", "/red", "/amber", "/HotRodPink", "/CornflowerBlue", "/LightGoldenRodYellow", "/BritishRacingGreen" };
             string[] user4 = { "/pink", "/orange", "/amber", "/BritishRacingGreen", "/plum", "/blue", "/tan", "/red", "/lavender", "/HotRodPink", "/CornflowerBlue", "/LightGoldenRodYellow" };
             string[] user5 = { "a" };
             string[] user6 = { "/pink", "/orange", "/six", "/plum", "/seven", "/tan", "/red", "/amber" };
@@ -220,7 +228,6 @@ namespace Praxis.Library
 
         public static void FindContiguousHistory(string[] userA, string[] userB)
         {
-            Console.WriteLine("===========================================");
             Console.WriteLine("Input UserA: ");
             Console.WriteLine($"[{string.Join(",", userA)}]");
             Console.WriteLine("Input UserB: ");
@@ -230,7 +237,6 @@ namespace Praxis.Library
 
             Console.WriteLine("Output (Contiguous History): ");
             Console.WriteLine($"[{string.Join(",", resultData)}]");
-            Console.WriteLine("===========================================");
         }
 
         public void SearchRotatedArray()
@@ -250,7 +256,7 @@ namespace Praxis.Library
         public void GameOfLife()
         {
             Console.WriteLine($"--Executing: {Helper.WhosThere()}");
-            var input = Helper.RandomMatrix2D(4,3,0,1);
+            var input = Helper.RandomMatrix2D(4, 3, 0, 1);
             Console.WriteLine("Input:");
             Helper.PrintMatrix(input);
             GameOfLife(input);
@@ -297,20 +303,155 @@ namespace Praxis.Library
             var stringResult = new StringBuilder();
             Console.WriteLine($"--Input: ");
 
-            fileData.ForEach(line => 
+            fileData.ForEach(line =>
             {
                 Console.WriteLine(line);
-                
-                line.Split(" ").ToList().ForEach(word => 
-                { 
-                    if(word.Split(".").Length == 4 && IsValidIPAddress(word)) 
-                        stringResult.Append(word + Environment.NewLine);    
+
+                line.Split(" ").ToList().ForEach(word =>
+                {
+                    if (word.Split(".").Length == 4 && IsValidIPAddress(word))
+                        stringResult.Append(word + Environment.NewLine);
                 });
-                
+
             });
 
             Console.WriteLine("--Output: ");
             Console.WriteLine(stringResult.ToString());
+            Helper.InsertBlankSep();
+        }
+
+        public static void NumIslandMaxArea()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            var charArr = new char[][]
+                       {
+                          new char[] { '1', '1', '0', '0', '0'},
+                          new char[] { '1', '1', '0', '0', '0' },
+                          new char[] { '0', '0', '1', '0', '0'},
+                          new char[] { '0', '0', '0', '1', '1' }
+                       };
+
+            var numIsland = NumIslands(charArr, out int maxArea);
+            Console.WriteLine($"Num Island: {numIsland}, MaxArea: {maxArea}");
+            Helper.InsertBlankSep();
+        }
+
+        public static void FindSymmetricDifference()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+
+            var setA = new int[] { 1, 2, 3 };
+            var setB = new int[] { 5, 2, 1, 4 };
+
+            Console.WriteLine($"Set A: {String.Join(",", setA)}");
+            Console.WriteLine($"Set B: {String.Join(",", setB)}");
+            Console.WriteLine($"Symmetric Difference: {String.Join(",", SymmetricDifference(setA, setB))}");
+            Helper.InsertBlankSep();
+        }
+
+        public static void CheckNumSequence()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            var input = new int[] { 0, 1, 2, 3, 4, 5 };
+
+            Console.WriteLine($"Input: {String.Join(",", input)}");
+            Console.WriteLine($"Sequence? : {CheckNumSequence(input)}");
+            Helper.InsertBlankSep();
+        }
+
+        public static void WordBreak()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+
+            var inputStr = "dapplepenapple";
+            var wordDict = new string[] { "apple", "pen" };
+
+            Console.WriteLine($"Input: {inputStr}");
+            Console.WriteLine($"WordDict : {string.Join(",", wordDict)}");
+            Console.WriteLine($"Output: {WordBreak(inputStr, wordDict)}");
+            Helper.InsertBlankSep();
+        }
+
+        public static void IsToeplitzMatrix()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+
+            var matrix = Helper.RandomMatrixJagged(5, 4, 1, 20);
+            var matrix1 = new int[][] {
+                    new int[] {1, 2, 3, 4 },
+                    new int[] {5, 1, 2, 3 },
+                    new int[] {9, 5, 1, 2 }
+            };
+            Console.WriteLine("Input: ");
+            Helper.PrintMatrix(matrix);
+            Console.WriteLine($"Output: {IsToeplitzMatrix(matrix)}");
+            Console.WriteLine("Input 2: ");
+            Helper.PrintMatrix(matrix1);
+            Console.WriteLine($"Output 2: {IsToeplitzMatrix(matrix1)}");
+            Helper.InsertBlankSep();
+        }
+
+        public static void DotProductAndCompress()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            var inputA = new int[] { 1, 1, 4, 4, 4, 4, 7, 7, 7, 7, 7, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+            var inputB = new int[] { 2, 2, 5, 5, 5, 5, 5, 5, 5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
+            Console.WriteLine($"Input A: {string.Join(",", inputA)}");
+
+            Console.WriteLine($"Input B: {string.Join(",", inputB)}");
+
+
+            var compressedA = CompressArray(inputA);
+            Console.Write("Compressed A: ");
+            foreach (var item in compressedA)
+            {
+                Console.Write($"[{string.Join(",", item)}] ");
+            }
+            Helper.InsertBlankSep();
+
+            var compressedB = CompressArray(inputB);
+            Console.Write("Compressed B: ");
+            foreach (var item in compressedB)
+            {
+                Console.Write($"[{string.Join(",", item)}] ");
+            }
+            Helper.InsertBlankSep();
+
+            var dotProduct = DotProduct(compressedA, compressedB);
+
+            Console.WriteLine($"Dot Product: {dotProduct}");
+            Helper.InsertBlankSep();
+        }
+
+        public static void LeftSideView()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+            var tree = new TreeNode(1)
+            {
+                Left = new TreeNode(2)
+            };
+
+            tree.Left.Left = new TreeNode(3);
+            tree.Right = new TreeNode(4)
+            {
+                Right = new TreeNode(5),
+                Left = new TreeNode(6)
+            };
+
+            Console.WriteLine("Input Tree: ");
+            tree.Print2D();
+            Console.WriteLine($"Number of Left View Nodes: {LeftSideView(tree)}");
+            Console.WriteLine($"Number of Left View Nodes Recursive: {LeftSideRecursive(tree)}");
+            Helper.InsertBlankSep();
+        }
+
+        public static void MaxProfit()
+        {
+            Console.WriteLine($"--Executing: {Helper.WhosThere()}");
+
+            var pricesArr = Helper.RandomArray(10);
+            Console.WriteLine($"Prices: {string.Join(",", pricesArr)}");
+            Console.WriteLine($"Max Profit: {MaxProfit(pricesArr)}");
             Helper.InsertBlankSep();
         }
 
@@ -695,7 +836,7 @@ namespace Praxis.Library
 
                 for (int i = 0; i < domStr.Length; i++)
                 {
-                    if(domStr[i] == '.')
+                    if (domStr[i] == '.')
                     {
                         var d = domStr.Substring(i + 1);
                         if (countMap.ContainsKey(d))
@@ -708,7 +849,7 @@ namespace Praxis.Library
                         }
                     }
                 }
-                
+
                 countMap.Add(domStr, countMap.GetValueOrDefault(domain, 0) + ct);
             }
 
@@ -759,7 +900,7 @@ namespace Praxis.Library
                 {
                     return mid;
                 }
-                else if(nums[mid] > nums[left])
+                else if (nums[mid] > nums[left])
                 {
                     if (target >= nums[left] && target <= nums[mid])
                         right = mid - 1;
@@ -885,21 +1026,21 @@ namespace Praxis.Library
                         int x = dir[0] + i;
                         int y = dir[1] + j;
 
-                        if(x >= 0 && x < m && y >= 0 && y < n && board[x,y] == 1)
+                        if (x >= 0 && x < m && y >= 0 && y < n && board[x, y] == 1)
                         {
                             liveCount++;
                         }
                     }
 
-                    if(board[i,j] == 0 && liveCount == 3)
+                    if (board[i, j] == 0 && liveCount == 3)
                     {
-                        nextArr[i,j] = 1;
-                    } 
-                    else if(board[i,j] == 1)
+                        nextArr[i, j] = 1;
+                    }
+                    else if (board[i, j] == 1)
                     {
-                        if(liveCount == 3 || liveCount == 2)
+                        if (liveCount == 3 || liveCount == 2)
                         {
-                            nextArr[i,j] = 1;
+                            nextArr[i, j] = 1;
                         }
                     }
                 }
@@ -909,7 +1050,7 @@ namespace Praxis.Library
             {
                 for (int j = 0; j < n; j++)
                 {
-                    board[i,j] = nextArr[i,j];
+                    board[i, j] = nextArr[i, j];
                 }
             }
         }
@@ -975,7 +1116,6 @@ namespace Praxis.Library
 
         }
 
-        
         /// <summary>
         /// # write a program that parses a log file looking for IP address
         /// # the log file is a local file on disk with the name "/logs/app.log" or (C:\logs\app.log)
@@ -1004,6 +1144,410 @@ namespace Praxis.Library
 
             return true;
         }
+
+        /// <summary>
+        /// Number of Islands: https://leetcode.com/problems/number-of-islands/
+        /// Max Area of Island: https://leetcode.com/problems/max-area-of-island/
+        /// Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
+        /// An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.
+        /// You may assume all four edges of the grid are all surrounded by water.
+        /// 
+        /// Also return the maxArea of the Island found.
+        /// </summary>
+        /// <param name="grid">Char Grid</param>
+        /// <returns>Num of Island and its max area</returns>
+        public static int NumIslands(char[][] grid, out int maxArea)
+        {
+            maxArea = 0;
+
+            var numCount = 0;
+
+            var row = grid.Length;
+            var col = grid[0].Length;
+
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    if (grid[i][j] == '1')
+                    {
+                        numCount++;
+                        maxArea = Math.Max(maxArea, DFSIsland(grid, i, j));
+                    }
+
+                }
+            }
+
+            return numCount;
+        }
+
+        public static int DFSIsland(char[][] grid, int r, int c)
+        {
+            var row = grid.Length;
+            var col = grid[0].Length;
+
+            if (r < 0 || c < 0 || r >= row || c >= col || grid[r][c] == '0')
+            {
+                return 0;
+            }
+
+
+            grid[r][c] = '0';
+
+            return 1 + DFSIsland(grid, r + 1, c)
+                     + DFSIsland(grid, r - 1, c)
+                     + DFSIsland(grid, r, c + 1)
+                     + DFSIsland(grid, r, c - 1);
+        }
+
+        public static List<int> SymmetricDifference(int[] setA, int[] setB)
+        {
+            var uniqueSet = new HashSet<int>();
+
+            foreach (var item in setA)
+            {
+                if (!uniqueSet.Contains(item))
+                    uniqueSet.Add(item);
+            }
+
+            foreach (var item in setB)
+            {
+                if (uniqueSet.Contains(item))
+                    uniqueSet.Remove(item);
+                else
+                    uniqueSet.Add(item);
+            }
+
+            return uniqueSet.ToList();
+        }
+
+        /// <summary>
+        /// FB Phone Screen:
+        /// Given an array of integers, return true or false if the numbers in the array go from 0... (N - 1) where N is the length of the array
+        /// Linear time, constant space is a requirement
+        /// [0,1,2,3,4] = true;
+        /// [4,2,1,0,3] = true;
+        /// [0,1,5,2,4] = false;
+        /// </summary>
+        /// <param name="input">Input Array</param>
+        /// <returns>Boolean if sequence</returns>
+        public static bool CheckNumSequence(int[] input)
+        {
+            var n = input.Length;
+
+            //Quick check to make sure numbers are in range 0 to n-1
+            foreach (var item in input)
+            {
+                if (item < 0 || item >= n) return false;
+            }
+
+            var expTotal = n * (n - 1) / 2;
+            var inputSum = input.Sum();
+
+            //Quick check (total should = theoretical total)
+            if (expTotal != inputSum)
+                return false;
+
+            //there should be no duplications
+            for (var i = 0; i < n; i++)
+            {
+                var k = input[i];
+                Console.WriteLine(k % n);
+                input[k % n] += n; //use the value as the key for hashing function
+            }
+
+            Console.WriteLine(String.Join(",", input));
+
+            for (int j = 0; j < n; j++)
+            {
+                // if there is a duplication there should be a collision
+                // if there is collision n should be added at least twice to that location make it >= 2*n
+                if (j >= 2 * n) return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 139. Word Break
+        /// https://leetcode.com/problems/word-break/
+        /// Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
+        /// Note that the same word in the dictionary may be reused multiple times in the segmentation.
+        /// Input: s = "applepenapple", wordDict = ["apple","pen"]
+        /// Output: true
+        /// Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+        /// Output: false
+        /// Dynamic Programming - Bottom Up Appraoch - Decision tree
+        /// T: O(N * M)
+        /// S: O(1)
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="wordDict"></param>
+        /// <returns></returns>
+        public static bool WordBreak(string s, IList<string> wordDict)
+        {
+            bool[] dp = new bool[s.Length + 1];
+            dp[s.Length] = true;
+
+            for (int i = s.Length - 1; i >= 0; i--)
+            {
+                foreach (var item in wordDict)
+                {
+                    int wLen = item.Length;
+
+                    if ((i + wLen) <= s.Length && s.Substring(i, wLen) == item)
+                    {
+                        dp[i] = dp[i + wLen];
+                    }
+
+                    if (dp[i]) break;
+                }
+            }
+
+            Console.WriteLine(string.Join(",", dp));
+
+            return dp[0];
+        }
+
+
+        /// <summary>
+        /// 766. Toeplitz Matrix
+        /// https://leetcode.com/problems/toeplitz-matrix/
+        /// Given an m x n matrix, return true if the matrix is Toeplitz. Otherwise, return false.
+        /// A matrix is Toeplitz if every diagonal from top-left to bottom-right has the same elements.
+        /// Input: matrix = [[1,2,3,4],[5,1,2,3],[9,5,1,2]]
+        /// Output: true
+        /// Input: matrix = [[1,2],[2,2]]
+        /// Output: false
+        /// 
+        /// Scanning the matrix and Comparing Top Left Neighbour of the R & C position.
+        /// T: O(M * N)
+        /// S: O(1)
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        public static bool IsToeplitzMatrix(int[][] matrix)
+        {
+            for (int r = 0; r < matrix.Length; r++)
+            {
+                for (int c = 0; c < matrix[0].Length; c++)
+                {
+                    if (r > 0 && c > 0 && matrix[r - 1][c - 1] != matrix[r][c])
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Given the following vectors (arbitrary numbers), design a more memory-efficient representation of these vectors.
+        /// https://leetcode.com/problems/product-of-two-run-length-encoded-arrays/ 
+        /// 
+        /// With the vectors represented as suggested, write a function to calculate the dot product of two vectors.
+        /// The vectors are guaranteed to contain a large number of duplicate values, similar to the example given above.
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <returns></returns>
+        public static List<int[]> CompressArray(int[] arr)
+        {
+            var compressed = new List<int[]>();
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                var val = arr[i];
+                var count = 1;
+
+                for (; i + 1 < arr.Length && arr[i + 1] == val; i++)
+                {
+                    count++;
+                }
+
+                compressed.Add(new int[] { count, val });
+            }
+
+            return compressed;
+        }
+
+        public static int DotProduct(List<int[]> v1, List<int[]> v2)
+        {
+            var dotProduct = 0;
+
+            for (int i = 0, j = 0; i < v1.Count && j < v2.Count;)
+            {
+                var a1 = v1[i];
+                var b1 = v2[j];
+
+                var multiplier = Math.Min(a1[0], b1[0]);
+                a1[0] -= multiplier;
+                b1[0] -= multiplier;
+
+                dotProduct += a1[1] * b1[1] * multiplier;
+
+                if (a1[0] == 0) i++;
+                if (b1[0] == 0) j++;
+            }
+
+            return dotProduct;
+        }
+
+        /// <summary>
+        /// Number of Visible Nodes
+        /// There is a binary tree with N nodes. You are viewing the tree from its left side and can see only the leftmost nodes at each level. 
+        /// Return the number of visible nodes.
+        /// Note: You can see only the leftmost nodes, but that doesn't mean they have to be left nodes. 
+        /// The leftmost node at a level could be a right node.
+        /// </summary>
+        /// <param name="root">Root node</param>
+        /// <param name="maxLevel">Max Level</param>
+        /// <returns></returns>
+        public static int LeftSideView(TreeNode root)
+        {
+            if (root == null)
+                return 0;
+
+            var queue = new Queue<TreeNode>();
+            queue.Enqueue(root);
+            var leftCount = 0;
+
+            while (queue.Count > 0)
+            {
+                var qsize = queue.Count;
+
+                for (int i = 1; i <= qsize; i++)
+                {
+                    var temp = queue.Dequeue();
+
+                    if (i == 1) leftCount++;
+
+                    if (temp.Left != null) queue.Enqueue(temp.Left);
+
+                    if (temp.Right != null) queue.Enqueue(temp.Right);
+                }
+            }
+
+            return leftCount;
+
+        }
+
+        public static int LeftSideRecursive(TreeNode root)
+        {
+            var leftViewCt = 0;
+            LeftSideRecursiveUtil(root, 1, 0, ref leftViewCt);
+            return leftViewCt;
+        }
+
+        private static int LeftSideRecursiveUtil(TreeNode root, int level, int lastLevel, ref int leftViewCt)
+        {
+            if (root == null)
+            {
+                return lastLevel;
+            } 
+                
+
+            if (lastLevel < level)
+            { 
+                leftViewCt++; 
+                lastLevel = level;
+            }
+
+            lastLevel = LeftSideRecursiveUtil(root.Left, level + 1, lastLevel, ref leftViewCt);
+            lastLevel = LeftSideRecursiveUtil(root.Right, level + 1, lastLevel, ref leftViewCt);
+
+            return lastLevel;
+        }
+
+        /// <summary>
+        /// 121. Best Time to Buy and Sell Stock
+        /// https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+        /// You are given an array prices where prices[i] is the price of a given stock on the ith day.
+        /// You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+        /// Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+        /// </summary>
+        /// <param name="prices"></param>
+        /// <returns></returns>
+        public static int MaxProfit(int[] prices)
+        {
+            //Smallest Valley
+            var min = int.MaxValue;
+
+            //Maximum difference between selling price and minprice
+            var max = 0;
+
+            for (int i = 0; i < prices.Length; i++)
+            {
+                if(prices[i] < min) 
+                    min = prices[i];
+                else if(prices[i] - min > max)
+                    max = prices[i]-min;
+            }
+
+            return max;
+        }
+
+        /// <summary>
+        /// 122. Best Time to Buy and Sell Stock II
+        /// You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
+        /// On each day, you may decide to buy and/or sell the stock. 
+        /// You can only hold at most one share of the stock at any time. 
+        /// However, you can buy it then immediately sell it on the same day.
+        /// 
+        /// Find and return the maximum profit you can achieve.
+        /// </summary>
+        /// <param name="prices"></param>
+        /// <returns></returns>
+        public static int MaxProfitII(int[] prices)
+        {
+            var maxProfit = 0;
+            for (int i = 1; i < prices.Length; i++)
+            {
+                if (prices[i] > prices[i - 1])
+                    maxProfit += prices[i] - prices[i - 1];
+            }
+
+            return maxProfit;
+        }
+
+        /// <summary>
+        /// 188. Best Time to Buy and Sell Stock IV
+        /// https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/
+        /// You are given an integer array prices where prices[i] is the price of a given stock on the ith day, and an integer k.
+        /// Find the maximum profit you can achieve. You may complete at most k transactions.
+        /// Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again)
+        /// Input: k = 2, prices = [2,4,1]
+        /// Output: 2
+        /// Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit = 4-2 = 2.
+        /// T: O(n*k)
+        /// S: O(k)
+        /// </summary>
+        /// <param name="k"></param>
+        /// <param name="prices"></param>
+        /// <returns></returns>
+        public static int MaxProfit(int k, int[] prices)
+        {
+            if(k ==0) return 0;
+
+            int[] profit = new int[k + 1];
+            int[] cost = new int[k + 1];
+
+            profit[0] = 0;
+
+            Array.Fill(cost, int.MaxValue);
+
+            foreach (var item in prices)
+            {
+                for (int i = 0; i < k; i++)
+                {
+                    cost[i + 1] = Math.Min(cost[i + 1], item - profit[i]);
+                    profit[i + 1] = Math.Max(profit[i + 1], item - cost[i + 1]);
+                }
+            }
+
+            return profit[1];
+        }
+
+        
+
 
         #endregion
     }

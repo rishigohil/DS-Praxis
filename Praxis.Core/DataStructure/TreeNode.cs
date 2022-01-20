@@ -10,6 +10,7 @@ namespace Praxis.Core.DataStructure
         public int val;
         public TreeNode Left;
         public TreeNode Right;
+        private static readonly int COUNT = 10;
 
         public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
         {
@@ -36,5 +37,36 @@ namespace Praxis.Core.DataStructure
 
             return root;
         }
+
+        private void Print2DUtil(TreeNode root, int space)
+        {
+            // Base case
+            if (root == null)
+                return;
+
+            // Increase distance between levels
+            space += COUNT;
+
+            // Process right child first
+            Print2DUtil(root.Right, space);
+
+            // Print current node after space
+            // count
+            Console.Write("\n");
+            for (int i = COUNT; i < space; i++)
+                Console.Write(" ");
+            Console.Write(root.val + "\n");
+
+            // Process left child
+            Print2DUtil(root.Left, space);
+        }
+
+        // Wrapper over print2DUtil()
+        public void Print2D()
+        {
+            // Pass initial space count as 0
+            Print2DUtil(this, 0);
+        }
+
     }
 }

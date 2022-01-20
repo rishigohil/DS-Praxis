@@ -23,6 +23,18 @@ namespace Praxis.Core
             return memberName;
         }
 
+        public static int[] RandomArray(int size, int min, int max)
+        {
+            var data = new int[size];
+
+            for (int i = 0; i < size; i++)
+            {
+                data[i] = RandomIntInRange(min, max);
+            }
+
+            return data;
+        }
+
         public static int[] RandomArray(int size)
         {
             var data = new int[size];
