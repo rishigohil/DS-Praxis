@@ -3,7 +3,7 @@ using Praxis.Contracts;
 using Praxis.Core;
 using Praxis.Library;
 
-namespace Praxis.Playground
+namespace Praxis.Runner
 {
     class Program
     {

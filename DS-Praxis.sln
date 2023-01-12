@@ -4,7 +4,7 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxis.Core", "Praxis.Core\Praxis.Core.csproj", "{00AA2BAD-AF0A-4D04-B6E5-3514BFD65E66}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxis.Playground", "Praxis.Playground\Praxis.Playground.csproj", "{0F7A6E14-3059-4CF3-A345-13A5F1A11D63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxis.Runner", "Praxis.Playground\Praxis.Runner.csproj", "{0F7A6E14-3059-4CF3-A345-13A5F1A11D63}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxis.Library", "Praxis.Library\Praxis.Library.csproj", "{BAB2220D-FEC0-45AB-A0BB-242F2B866F3C}"
 EndProject
