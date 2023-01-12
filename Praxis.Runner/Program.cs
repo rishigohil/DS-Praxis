@@ -36,7 +36,7 @@ namespace Praxis.Runner
 
             Helper.InsertBlankSep();
             Console.WriteLine("Press [enter] to quit.");
-            Console.ReadKey();
+            Console.Read();
 
         }
     }

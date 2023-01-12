@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Praxis.Playground/bin/Debug/net7.0/Praxis.Playground.dll",
+            "program": "${workspaceFolder}/Praxis.Runner/bin/Debug/net7.0/Praxis.Runner.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Praxis.Playground",
+            "cwd": "${workspaceFolder}/Praxis.Runner",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false
